@@ -17,10 +17,13 @@ fun main(args: Array<String>) {
                 )
             )
 
+    print("PreOrder: ")
     boom.printPreOrder()
     println()
+    print("InOrder: ")
     boom.printInOrder()
     println()
+    print("PostOrder: ")
     boom.printPostOrder()
     println()
     println("Size: ${boom.size}")
