@@ -1,25 +1,28 @@
 package domain
 
-import java.util.LinkedList
+import sun.misc.Queue
+import java.util.*
 
 class Graph(matrix: Array<IntArray>) {
     companion object {
-        val MAX_INFINITY = Integer.MAX_VALUE
+        val POSITIVE_INFINITY = Float.POSITIVE_INFINITY.toInt()
     }
 
-    private val verbindingsMatrix: Array<BooleanArray>
+    private val linkMatrix: Array<BooleanArray>
+    private val amountOfNodes: Int
+        get() = linkMatrix.size
 
     init {
-        if (!isGeldigeVerbindingsMatrix(matrix))
+        if (!isLegitmateLinkMatrix(matrix))
             throw IllegalArgumentException("No valid nabijheidsmatrix")
 
-        this.verbindingsMatrix = Array(matrix.size) { BooleanArray(matrix.size) }
+        linkMatrix = Array(matrix.size) { BooleanArray(matrix.size) }
         for (i in matrix.indices)
             for (j in matrix.indices)
-                this.verbindingsMatrix[i][j] = matrix[i][j] == 1
+                this.linkMatrix[i][j] = matrix[i][j] == 1
     }
 
-    private fun isGeldigeVerbindingsMatrix(matrix: Array<IntArray>?): Boolean {
+    private fun isLegitmateLinkMatrix(matrix: Array<IntArray>?): Boolean {
         if (matrix == null || matrix.size != matrix[0].size)
             return false
 
@@ -35,57 +38,62 @@ class Graph(matrix: Array<IntArray>) {
         return true
     }
 
-    private val aantalKnopen: Int
-        get() = this.verbindingsMatrix.size
+    private fun hasLink(from: Int, to: Int) = linkMatrix[from][to]
 
-    private fun findAncestors(start: Int, destination: Int): IntArray {// nummering van
-        // start-knoop
-        // (1..aantal_knopen)
-        // naar
-        // eindKnoop
-        // (destination)
-        val ancestors = IntArray(this.aantalKnopen)
-        initArray(ancestors, MAX_INFINITY)
+    private fun findAncestors(start: Int, destination: Int): IntArray {
+        val ancestors = IntArray(amountOfNodes) { POSITIVE_INFINITY }
 
-        val queue = LinkedList<Int>()
-        queue.add(start)
-        ancestors[start - 1] = 0
+        val queue = Queue<Int>()
+        queue.enqueue(start)
+        ancestors[start] = POSITIVE_INFINITY // You can't go to the link you started
 
-        // oefening 1.4
-
+        var currentNode = queue.dequeue()
+        while (currentNode != destination) {
+            for(node in 0 until amountOfNodes) {
+                if(hasLink(currentNode, node) && ancestors[node] == POSITIVE_INFINITY && node != start) {
+                    queue.enqueue(node)
+                    ancestors[node] = currentNode
+                }
+            }
+            if(queue.isEmpty) {
+                break // No reason to keep on going
+            }
+            currentNode = queue.dequeue()
+        }
         return ancestors
     }
 
-    fun findPath(start: Int, destination: Int): List<Int> {
-        if (start <= 0 || start > this.aantalKnopen || destination <= 0 || destination > this.aantalKnopen)
-            throw IllegalArgumentException()
+    private fun path(start: Int, destination: Int): List<Int> {
+        val ancestors = findAncestors(start, destination)
+        if(ancestors.isEmpty() || ancestors[destination] == POSITIVE_INFINITY) {
+            return emptyList()
+        }
 
-        val ancestors = this.findAncestors(start, destination)
         val path = LinkedList<Int>()
+        path.add(ancestors[destination])
 
-        // oefening 1.5
-
-        return path
-
+        while(path.last != start) {
+            if(path.last == POSITIVE_INFINITY) return emptyList()
+            path.add(ancestors[path.last])
+        }
+        return path.reversed()
     }
 
-    private fun initArray(array: IntArray, value: Int) {
-        for (i in array.indices)
-            array[i] = value
+    fun findPath(start: Int, destination: Int): List<Int> {
+        return path(start - 1, destination - 1)
     }
 
 
     // methode om tussenliggend resultaat te kunnen schrijven naar het scherm
-    fun geefAncestors(start: Int, destination: Int): String {
-        var res = "Ancestors van $start naar $destination:\n"
-        val ancestors = this.findAncestors(start, destination)
-        for (a in ancestors.indices)
-            res += if (ancestors[a] != MAX_INFINITY) ancestors[a] else "MAX_INFINITY" + " "
-
-        return res
+    fun giveAncestors(start: Int, destination: Int): String {
+        val sb = StringBuilder()
+        sb.append("Ancestors van $start naar $destination:\n")
+        val ancestors = findAncestors(start - 1, destination - 1)
+                .map { if (it != POSITIVE_INFINITY) (it + 1).toString() else "POSITIVE_INFINITY" }
+                .joinToString(separator = " -> ")
+        sb.append(ancestors)
+        return sb.toString()
     }
-
-
 
 
 }
