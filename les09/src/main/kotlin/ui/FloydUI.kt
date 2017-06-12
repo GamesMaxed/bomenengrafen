@@ -28,13 +28,15 @@ fun main(args: Array<String>) {
             val pad = g.getShortestPath(i, j, p_matrix)
             sb.append(when {
                 pad.isEmpty() -> "Er is geen pad van $i naar $j\n"
-                else ->"Kortste pad van $i naar $j lengte = ${g.calculateLength(pad)} via: $pad \n"
+                else ->"Kortste pad van $i naar $j lengte = ${g.calculateLength(pad)} via: ${pad.joinToString(separator = " -> ")} \n"
             })
 
         }
         sb.append("\n")
     }
     println(sb.toString())
+
+    //println(g.getShortestPath(2, 1, p_matrix).joinToString(separator = " -> "))
 }
 
 public fun <T : Comparable<T>> printMatrix(name: String, matrix: List<List<T>>) {
