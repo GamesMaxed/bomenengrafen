@@ -5,7 +5,6 @@ import domain.WeightedGraph
 internal val POSITIVE_INFINITY = WeightedGraph.POSITIVE_INFINITY
 
 fun main(args: Array<String>) {
-
     val matrix = arrayOf(
             doubleArrayOf(0.0, 1.0, POSITIVE_INFINITY, 1.0, 5.0),
             doubleArrayOf(9.0, 0.0, 3.0, 2.0, POSITIVE_INFINITY),
@@ -29,7 +28,7 @@ fun main(args: Array<String>) {
             val pad = g.getShortestPath(i, j, p_matrix)
             sb.append(when {
                 pad.isEmpty() -> "Er is geen pad van $i naar $j\n"
-                else ->"Kortste pad van $i naar $j lengte = ${g.berekenLengte(pad)} via: $pad \n"
+                else ->"Kortste pad van $i naar $j lengte = ${g.calculateLength(pad)} via: $pad \n"
             })
 
         }
@@ -43,7 +42,11 @@ private fun <T : Comparable<T>> printMatrix(name: String, matrix: Array<Array<T>
     sb.append("$name: \n")
     for (i in matrix.indices) {
         for (j in matrix.indices) {
-            sb.append(if (matrix[i][j] == POSITIVE_INFINITY) "inf" else matrix[i][j]).toString() + "\t")
+            sb.append(when(matrix[i][j]) {
+                POSITIVE_INFINITY  -> "+∞"
+                else -> matrix[i][j].toString()
+            } + "\t")
+
         }
         sb.append("\n")
     }

@@ -2,20 +2,20 @@ package domain
 
 import java.util.ArrayList
 
-class WeightedGraph(private val gewichtenMatrix: Array<DoubleArray>) {
+class WeightedGraph(private val weightedMatrix: Array<DoubleArray>) {
     companion object {
         val POSITIVE_INFINITY = java.lang.Double.POSITIVE_INFINITY
     }
 
     init {
-        if (gewichtenMatrix.size != gewichtenMatrix[0].size) throw IllegalArgumentException("No valid gewichtenmatrix")
+        if (weightedMatrix.size != weightedMatrix[0].size) throw IllegalArgumentException("No valid weightedMatrix")
     }
 
     fun findDistances(): Array<IntArray> {
-        val path = Array(gewichtenMatrix.size) { IntArray(gewichtenMatrix.size) }
-        val distanceMatrix = Array(gewichtenMatrix.size) { DoubleArray(this.gewichtenMatrix.size) }
-        gewichtenMatrix.indices.forEach { i ->
-            gewichtenMatrix.indices.forEach { j -> distanceMatrix[i][j] = this.gewichtenMatrix[i][j] }
+        val path = Array(weightedMatrix.size) { IntArray(weightedMatrix.size) }
+        val distanceMatrix = Array(weightedMatrix.size) { DoubleArray(weightedMatrix.size) }
+        weightedMatrix.indices.forEach { i ->
+            weightedMatrix.indices.forEach { j -> distanceMatrix[i][j] = weightedMatrix[i][j] }
         }
 
         // oefening 2.3
@@ -32,11 +32,11 @@ class WeightedGraph(private val gewichtenMatrix: Array<DoubleArray>) {
 
     }
 
-    fun berekenLengte(pad: List<Int>): Int {
-        val som = 0
+    fun calculateLength(path: List<Int>): Int {
+        val sum = 0
 
         // oefening 2.5
 
-        return som
+        return sum
     }
 }
