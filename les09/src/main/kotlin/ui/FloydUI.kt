@@ -5,21 +5,21 @@ import domain.WeightedGraph
 internal val POSITIVE_INFINITY = WeightedGraph.POSITIVE_INFINITY
 
 fun main(args: Array<String>) {
-    val matrix = arrayOf(
-            doubleArrayOf(0.0, 1.0, POSITIVE_INFINITY, 1.0, 5.0),
-            doubleArrayOf(9.0, 0.0, 3.0, 2.0, POSITIVE_INFINITY),
-            doubleArrayOf(POSITIVE_INFINITY, POSITIVE_INFINITY, 0.0, 4.0, POSITIVE_INFINITY),
-            doubleArrayOf(POSITIVE_INFINITY, POSITIVE_INFINITY, 2.0, 0.0, 3.0),
-            doubleArrayOf(3.0, POSITIVE_INFINITY, POSITIVE_INFINITY, POSITIVE_INFINITY, 0.0)
+    val matrix = listOf(
+            listOf(0.0, 1.0, POSITIVE_INFINITY, 1.0, 5.0),
+            listOf(9.0, 0.0, 3.0, 2.0, POSITIVE_INFINITY),
+            listOf(POSITIVE_INFINITY, POSITIVE_INFINITY, 0.0, 4.0, POSITIVE_INFINITY),
+            listOf(POSITIVE_INFINITY, POSITIVE_INFINITY, 2.0, 0.0, 3.0),
+            listOf(3.0, POSITIVE_INFINITY, POSITIVE_INFINITY, POSITIVE_INFINITY, 0.0)
     )
     //double[][] matrix = {{0,2,3,11,POSITIVE_INFINITY},{POSITIVE_INFINITY,0,POSITIVE_INFINITY,7,POSITIVE_INFINITY},{POSITIVE_INFINITY,POSITIVE_INFINITY,0,4,POSITIVE_INFINITY},{POSITIVE_INFINITY,POSITIVE_INFINITY,POSITIVE_INFINITY,0,1},{POSITIVE_INFINITY,POSITIVE_INFINITY,POSITIVE_INFINITY,POSITIVE_INFINITY,0}};
 
-    printMatrix("Matrix:", matrix.map { it.toTypedArray() }.toTypedArray())
+    printMatrix("Matrix", matrix)
 
     val g = WeightedGraph(matrix)
     val p_matrix = g.findDistances()
 
-    printMatrix("Weighted matrix:", matrix.map { it.toTypedArray() }.toTypedArray())
+    printMatrix("Pointer matrix", p_matrix)
 
     val sb = StringBuilder()
     sb.append("Kortste paden: \n")
@@ -37,7 +37,7 @@ fun main(args: Array<String>) {
     println(sb.toString())
 }
 
-private fun <T : Comparable<T>> printMatrix(name: String, matrix: Array<Array<T>>) {
+public fun <T : Comparable<T>> printMatrix(name: String, matrix: List<List<T>>) {
     val sb = StringBuilder()
     sb.append("$name: \n")
     for (i in matrix.indices) {

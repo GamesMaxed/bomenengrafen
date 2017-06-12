@@ -2,7 +2,7 @@ package domain
 
 import java.util.ArrayList
 
-class WeightedGraph(private val weightedMatrix: Array<DoubleArray>) {
+class WeightedGraph(private val weightedMatrix: List<List<Double>>) {
     companion object {
         val POSITIVE_INFINITY = java.lang.Double.POSITIVE_INFINITY
     }
@@ -11,20 +11,31 @@ class WeightedGraph(private val weightedMatrix: Array<DoubleArray>) {
         if (weightedMatrix.size != weightedMatrix[0].size) throw IllegalArgumentException("No valid weightedMatrix")
     }
 
-    fun findDistances(): Array<IntArray> {
-        val path = Array(weightedMatrix.size) { IntArray(weightedMatrix.size) }
-        val distanceMatrix = Array(weightedMatrix.size) { DoubleArray(weightedMatrix.size) }
-        weightedMatrix.indices.forEach { i ->
-            weightedMatrix.indices.forEach { j -> distanceMatrix[i][j] = weightedMatrix[i][j] }
+
+    /**
+     * Returns a PointerMatrix
+     */
+    fun findDistances(): List<List<Int>> {
+        val path = MutableList(weightedMatrix.size) { MutableList(weightedMatrix.size) { 0 } }
+        val distanceMatrix = weightedMatrix.map { it.toMutableList() }
+
+        // Loop to create P(0..size)
+        distanceMatrix.indices.forEach { time ->
+            distanceMatrix.withIndex().forEach { (row, rowArray) ->
+                rowArray.withIndex().forEach { (column, current) ->
+                    // If a more optimal path is found
+                    if (distanceMatrix[time][column] + distanceMatrix[row][time] < current) {
+                        distanceMatrix[row][column] = current
+                        path[row][column] = time + 1
+                    }
+                }
+            }
         }
-
-        // oefening 2.3
-
         return path
     }
 
-    fun getShortestPath(i: Int, j: Int, path: Array<IntArray>): List<Int> {
-        val res = ArrayList<Int>()
+    fun getShortestPath(i: Int, j: Int, path: List<List<Int>>): List<Int> {
+        val res = mutableListOf<Int>()
 
         // oefening 2.4
 
