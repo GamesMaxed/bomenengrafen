@@ -1,6 +1,16 @@
 plugins {
-    id 'java'
-    id 'application'
+    id "org.jetbrains.kotlin.jvm" version '1.1.2-2'
+    id "application"
 }
 
-mainClassName = "ui.BreadthFirstSearchUI"
+ext.kotlin_version = '1.1.2-2'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
+}
+
+mainClassName = "ui.BreadthFirstSearchUIKt"
