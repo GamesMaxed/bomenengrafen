@@ -1,32 +1,30 @@
 package domain
 
-class Graph(matrix: List<List<Int>>) {
+class Graph(private val weightedMatrix: List<List<Int>>) {
     companion object {
         val POSITIVE_INFINITY = java.lang.Double.POSITIVE_INFINITY.toInt()
     }
 
-    private val weightedMatrix:  List<List<Int>>
-
     init {
-        if (matrix.isEmpty() || matrix.size != matrix[0].size) {
+        if (weightedMatrix.isEmpty() || weightedMatrix.size != weightedMatrix[0].size) {
             throw IllegalArgumentException()
         }
-
-        weightedMatrix = matrix
     }
 
     private fun initMatrixDijkstra(from: Int): List<List<Int>> {
-        val res = List(weightedMatrix.size + 1) { MutableList(weightedMatrix.size) { POSITIVE_INFINITY } }
-        
-        // eerste rij is rij met kortste lengtes vanuit from
+        val res = MutableList(weightedMatrix.size + 1) {
+            List(weightedMatrix.size) { if (it == from) 0 else POSITIVE_INFINITY }
+        }
 
-        // oefening 3.3
+        weightedMatrix.withIndex().forEach { (index, row) ->
+            res[index + 1] = row.map { if (it == POSITIVE_INFINITY) 0 else it }
+        }
 
         return res
     }
 
     fun Dijkstra(from: Int): List<List<Int>> {
-        val res = initMatrixDijkstra(from)
+        val res = initMatrixDijkstra(from - 1)
 
         printMatrix("Initiele matrix:", res)
 
@@ -66,9 +64,9 @@ class Graph(matrix: List<List<Int>>) {
         val sb = StringBuilder()
         sb.append("$name: \n")
         for (i in matrix.indices) {
-            for (j in matrix.indices) {
-                sb.append(when(matrix[i][j]) {
-                    POSITIVE_INFINITY  -> "+∞"
+            for (j in matrix[i].indices) {
+                sb.append(when (matrix[i][j]) {
+                    POSITIVE_INFINITY -> "+∞"
                     else -> matrix[i][j].toString()
                 } + "\t")
 

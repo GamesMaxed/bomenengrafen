@@ -18,15 +18,15 @@ fun main(args: Array<String>) {
 
 fun dijkstra() {
     val gewichtenMatrix = listOf(
-            listOf(0, 5, 9, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE),
-            listOf(5, 0, 3, 8, 10, 11, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE),
-            listOf(9, 3, 0, 2, Integer.MAX_VALUE, Integer.MAX_VALUE, 7, Integer.MAX_VALUE, Integer.MAX_VALUE),
-            listOf(Integer.MAX_VALUE, 8, 2, 0, Integer.MAX_VALUE, 3, 7, Integer.MAX_VALUE, Integer.MAX_VALUE),
-            listOf(Integer.MAX_VALUE, 10, Integer.MAX_VALUE, Integer.MAX_VALUE, 0, 1, Integer.MAX_VALUE, 8, Integer.MAX_VALUE),
-            listOf(Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, 3, 1, 0, 5, 10, Integer.MAX_VALUE),
-            listOf(Integer.MAX_VALUE, Integer.MAX_VALUE, 7, 7, Integer.MAX_VALUE, Integer.MAX_VALUE, 0, 12, Integer.MAX_VALUE),
-            listOf(Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, 8, 10, 12, 0, Integer.MAX_VALUE),
-            listOf(1, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, 0)
+            listOf(0, 5, 9, Graph.POSITIVE_INFINITY, Graph.POSITIVE_INFINITY, Graph.POSITIVE_INFINITY, Graph.POSITIVE_INFINITY, Graph.POSITIVE_INFINITY, Graph.POSITIVE_INFINITY),
+            listOf(5, 0, 3, 8, 10, 11, Graph.POSITIVE_INFINITY, Graph.POSITIVE_INFINITY, Graph.POSITIVE_INFINITY),
+            listOf(9, 3, 0, 2, Graph.POSITIVE_INFINITY, Graph.POSITIVE_INFINITY, 7, Graph.POSITIVE_INFINITY, Graph.POSITIVE_INFINITY),
+            listOf(Graph.POSITIVE_INFINITY, 8, 2, 0, Graph.POSITIVE_INFINITY, 3, 7, Graph.POSITIVE_INFINITY, Graph.POSITIVE_INFINITY),
+            listOf(Graph.POSITIVE_INFINITY, 10, Graph.POSITIVE_INFINITY, Graph.POSITIVE_INFINITY, 0, 1, Graph.POSITIVE_INFINITY, 8, Graph.POSITIVE_INFINITY),
+            listOf(Graph.POSITIVE_INFINITY, Graph.POSITIVE_INFINITY, Graph.POSITIVE_INFINITY, 3, 1, 0, 5, 10, Graph.POSITIVE_INFINITY),
+            listOf(Graph.POSITIVE_INFINITY, Graph.POSITIVE_INFINITY, 7, 7, Graph.POSITIVE_INFINITY, Graph.POSITIVE_INFINITY, 0, 12, Graph.POSITIVE_INFINITY),
+            listOf(Graph.POSITIVE_INFINITY, Graph.POSITIVE_INFINITY, Graph.POSITIVE_INFINITY, Graph.POSITIVE_INFINITY, 8, 10, 12, 0, Graph.POSITIVE_INFINITY),
+            listOf(1, Graph.POSITIVE_INFINITY, Graph.POSITIVE_INFINITY, Graph.POSITIVE_INFINITY, Graph.POSITIVE_INFINITY, Graph.POSITIVE_INFINITY, Graph.POSITIVE_INFINITY, Graph.POSITIVE_INFINITY, 0)
     )
     val graph = Graph(gewichtenMatrix)
     println(graph.calculatePath(1))
