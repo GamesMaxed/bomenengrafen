@@ -24,11 +24,40 @@ class Graph(private val weightedMatrix: List<List<Int>>) {
     }
 
     fun Dijkstra(from: Int): List<List<Int>> {
-        val res = initMatrixDijkstra(from - 1)
+        val res = initMatrixDijkstra(from - 1).map { it.toMutableList() }
 
         printMatrix("Initiele matrix:", res)
 
-        // oefening 3.4
+        // Keep looping until breaked out
+        while (true) {
+            var indexSmallestJ = 0
+            var indexSmallestI = 0
+            var smallest = POSITIVE_INFINITY
+
+            weightedMatrix.indices.forEach { i ->
+                if (res[0][i] != POSITIVE_INFINITY) {
+                    // doorzoek alle knopen waar nog geen kortste pad voor werd
+                    // gevonden en die bereikbaar zijn uit knopen waar reeds korste pad voor
+                    // werd gevonden en zoek hierin de kleinste afstand
+                    weightedMatrix.indices.forEach { j ->
+                        if (res[i + 1][j] != 0
+                                && res[0][j] == POSITIVE_INFINITY
+                                && res[0][i] + res[i + 1][j] < smallest) {
+                            indexSmallestI = i + 1
+                            indexSmallestJ = j
+                            smallest = res[0][i] + res[i + 1][j]
+                        }
+                    }
+                }
+            }
+            if (smallest == POSITIVE_INFINITY) {
+                break
+            }
+            res[0][indexSmallestJ] = smallest
+            weightedMatrix.indices.forEach { i ->
+                if (i != indexSmallestI) res[i][indexSmallestJ] = 0
+            }
+        }
 
         return res
     }
