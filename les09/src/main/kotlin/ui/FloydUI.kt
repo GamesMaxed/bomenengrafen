@@ -39,7 +39,7 @@ fun main(args: Array<String>) {
     //println(g.getShortestPath(2, 1, p_matrix).joinToString(separator = " -> "))
 }
 
-public fun <T : Comparable<T>> printMatrix(name: String, matrix: List<List<T>>) {
+fun <T : Comparable<T>> printMatrix(name: String, matrix: List<List<T>>) {
     val sb = StringBuilder()
     sb.append("$name: \n")
     for (i in matrix.indices) {
